@@ -1,16 +1,36 @@
-# youtubebloc
+# Clone Youtube API
 
-A new Flutter project.
+add lib/api.dart
 
-## Getting Started
 
-This project is a starting point for a Flutter application.
+``` 
 
-A few resources to get you started if this is your first Flutter project:
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+import 'package:youtubebloc/models/video.dart';
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+const API_KEY = ""; 
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+class Api {
+  search(String search) async {
+    http.Response response = await http.get(
+        "https://www.googleapis.com/youtube/v3/search?part=snippet&q=$search&type=video&key=$API_KEY&maxResults=10");
+
+    decode(response);
+  }
+
+  List<Video> decode(http.Response response) {
+    if (response.statusCode == 200) {
+      var decoded = json.decode(response.body);
+      List<Video> videos = decoded["items"].map<Video>((map) {
+        return Video.fromJson(map);
+      }).toList();
+
+      return videos;
+    } else {
+      throw Exception("Failed to load videos");
+    }
+
+  }
+}
+```

@@ -1,12 +1,45 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:youtubebloc/delegates/data_search.dart';
 
 class Home extends StatelessWidget {
-  
-
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: null,
+    return Scaffold(
+      appBar: AppBar(
+        titleSpacing: 0,
+        centerTitle: false,
+        leadingWidth: 0,
+        title: Transform(
+          transform: Matrix4.translationValues(
+              -MediaQuery.of(context).size.width * 0.2, 0.0, 0.0),
+          child: Container(
+            alignment: Alignment.centerLeft,
+            height: 25,
+            child: SvgPicture.asset("images/YouTube_Logo_2017.svg"),
+          ),
+        ),
+        elevation: 0,
+        backgroundColor: Colors.black87,
+        actions: [
+          Align(
+            alignment: Alignment.center,
+            child: Text("0"),
+          ),
+          IconButton(
+            onPressed: () {},
+            icon: Icon(Icons.star),
+          ),
+          IconButton(
+            onPressed: () async {
+             String result = await showSearch(context: context, delegate: DataSearch());
+            },
+            icon: Icon(Icons.search),
+          ),
+        ],
+      ),
+      backgroundColor: Colors.black87,
+      body: Container(),
     );
   }
 }
